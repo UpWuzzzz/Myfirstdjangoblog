@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="icon" href="{% static 'images/icon.png' %}" type="image/x-icon"/>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+    <title>登录页面</title>
+</head>
+<body>
+<div class="container text-white w-100 main" style="text-align: center; margin-top: 0px; background-color: #495057;">
+    <div class="col-md-10  col-sm-10 mx-auto text-center" style="height: 775px;margin-top: 0px">
+         <h1 class="" style="user-select:none; padding-top: 100px">Getit</h1>
+        <p class="py-2 center" style="user-select:none;">登录</p>
+
+
+        <form action="login" method="post" class="text-center" role="form">
+
+            <div class="my-lg-5">
+                <label for="username" class=" col-form-label col-sm-12 col-md-2 float-left text-lg-right text-sm-left">用户名:</label>
+                <div class="form-group">
+                    <input type="text" name="username" id="username" class="user col-sm-12 col-md-8 form-control" placeholder="4到16位（字母，数字，下划线，减号）" onblur="user(this.value)"/>
+                </div>
+            </div>
+
+            <div class="my-lg-5">
+                <label for="password" class="clo-form-label col-sm-12 col-md-2 float-left text-lg-right text-sm-left">密码:</label>
+                <div class="form-group">
+                    <input type="password"name="password" id="password" class="pass col-sm-12 col-md-8 form-control" placeholder="最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符" onblur="pass(this.value);"/>
+                </div>
+            </div>
+
+            <div class="my-lg-5">
+                <label class="col-form-label col-sm-12 col-md-2 float-left text-lg-right text-sm-left" for="verify">验证码:</label>
+                <div class="form-group position-relative">
+                    <!--这里是大屏的验证码-->
+                    <input type="text" class="col-md-4 col-sm-12 form-control" placeholder="请输入验证码" id="verify" name="captcha_1"/>
+                    <div class="position-absolute col-md-3 d-none d-sm-none d-md-block" style="height: 65px;top:0px;right:28%">
+                        <img src="{{ image_url }}" alt="captcha" class="captcha" />
+                        <input id="id_reg_captcha_0" name="captcha_0" type="hidden" value="{{ hashkey }}">
+                    </div>
+                </div>
+            </div>
+
+            <!--这里是小屏的验证码-->
+            <div class="my-5 d-none d-sm-block d-md-none">
+                <div class="col-sm-12" style="height: 50px; background-color: #004085">验证码</div>
+            </div>
+
+
+            <div class="my-5 d-none d-sm-none d-md-block modal-open">
+                <div class="form-group">
+                    <span class="col-ms-3 col-md-3 float-left text-right" style="display: block; height: 24px;margin-left: 15%;">记住密码：<input type="radio" value="1" name="remember" /></span>
+                    <span class="col-ms-3 col-md-3 float-left">自动登录：<input type="radio" value="1" name="remember" /></span>
+                    <span class="d-md-none d-lg-block col-md-3 col-sm-3 float-left"><a href="#" class="text-white">忘记密码</a></span>
+                </div>
+            </div>
+            
+
+            <div class="my-5 mt-lg-5">
+                <div class="form-group h-100 ml-md-5">
+                    <span class="d-sm-none d-md-block col-md-1 float-left ml-2" style="display:block;height: 38px;"></span>
+                    <button class="btn btn-outline-warning  col-sm-12 col-md-4 float-left">登录</button>
+                    <div class="d-none d-sm-block d-md-none float-left my-2 w-100" style="height: 10px;"></div>
+                    <a href="{% url 'register' %}" class="btn btn-outline-warning col-sm-12 col-md-4 float-left ml-md-4">注册</a>
+                </div>
+            </div>
+            <div class="alert alert-danger showInfo" style="{% if login_form.errors.items %}display: block;{% else %}display: none;{% endif %}margin-top: 89px;">
+                {% for key,error in register_form.errors.items %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+            <div class="alert alert-danger showInfo" style="{% if msg is not null %}display: block;{% else %}display: none;{% endif %}margin-top: 89px;">
+                {{ msg }}
+            </div>
+        {% csrf_token %}
+    </form>
+
+    </div>
+    <div class="blockquote-footer text-center">
+        2018-404-版权所有
+    </div>
+</div>
+</body>
+</html>
