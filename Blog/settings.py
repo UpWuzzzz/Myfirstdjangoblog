@@ -140,10 +140,10 @@ STATICFILES_DIRS = (
 # Email设置
 EMAIL_HOST = "smtp.qq.com"
 EMAIL_PORT = 25
-EMAIL_HOST_USER = "957637274@qq.com"
-EMAIL_HOST_PASSWORD = "Wuluokong;00"
+EMAIL_HOST_USER = ""
+EMAIL_HOST_PASSWORD = ""
 EMAIL_USE_TLS= False
-EMAIL_FROM = "957637274@qq.com"
+EMAIL_FROM = ""
 
 # django_simple_captcha 验证码配置
 # 过期时间
