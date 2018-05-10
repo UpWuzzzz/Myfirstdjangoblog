@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <link rel="icon" href="{% static 'images/icon.png' %}" type="image/x-icon"/>
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+    <style>
+        li{
+            list-style: none;
+            padding-top: 6px;
+        }
+    </style>
     <title>登录页面</title>
 </head>
 <body>
@@ -65,12 +71,12 @@
                     <a href="{% url 'register' %}" class="btn btn-outline-warning col-sm-12 col-md-4 float-left ml-md-4">注册</a>
                 </div>
             </div>
-            <div class="alert alert-danger showInfo" style="{% if login_form.errors.items %}display: block;{% else %}display: none;{% endif %}margin-top: 89px;">
-                {% for key,error in register_form.errors.items %}
+            <div class="alert alert-danger showInfo" style="{% if login_form.errors.items %}display: block;{% else %}display: none;{% endif %}margin-top: 89px; padding: 0 1.25rem;">
+                {% for key,error in login_form.errors.items %}
                     {{ error }}
                 {% endfor %}
             </div>
-            <div class="alert alert-danger showInfo" style="{% if msg is not null %}display: block;{% else %}display: none;{% endif %}margin-top: 89px;">
+            <div class="alert alert-danger showInfo" style="{% if msg is not null %}display: block;{% else %}display: none;{% endif %}margin-top: 89px; padding: 10px 1.25rem;">
                 {{ msg }}
             </div>
         {% csrf_token %}

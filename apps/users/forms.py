@@ -18,3 +18,7 @@ class RegisterForm(forms.Form):
     sex = forms.CharField(required=True)
     captcha = CaptchaField(error_messages={'invalid': '验证码输入错误'})
 
+
+class ForgetForm(forms.Form):
+    username = forms.CharField(required=True)
+    captcha = CaptchaField(error_messages={'invalid': '验证码输入错误'})

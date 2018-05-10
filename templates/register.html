@@ -6,24 +6,26 @@
     <title>注册页面</title>
     <link rel="icon" href="{% static 'images/icon.png' %}" type="image/x-icon"/>
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+    <style>
+    li{
+        list-style: none;
+        padding-top: 6px;
+    }
+    </style>
 </head>
 <body>
 <div class="container text-white main" style="background-color: #495057;">
     <div class="col-md-10  mx-auto text-center" style="height: 775px;margin-top: 0px">
         <h1 class="" style="user-select:none; padding-top: 60px">Getit</h1>
         <p class="py-2 center" style="user-select:none;">注册</p>
-        {% if register_form.errors.items %}
-        <div class="alert alert-danger showInfo">
+        <div class="alert alert-danger showInfo" style="{% if register_form.errors.items %}display: block;{% else %}display: none;{% endif %}margin-top: 15px; padding: 0 1.25rem;">
             {% for key,error in register_form.errors.items %}
                 {{ error }}
             {% endfor %}
         </div>
-        {% endif %}
-        {% if msg is not null %}
-            <div class="alert alert-danger showInfo">
-                {{ msg }}
-            </div>
-        {% endif %}
+        <div class="alert alert-danger showInfo" style="{% if msg is not null %}display: block;{% else %}display: none;{% endif %}margin-top: 15px; padding: 10px 1.25rem;">
+            {{ msg }}
+        </div>
         <form action="{% url 'register' %}" class="" role="form" method="post">
             <div class="my-lg-5">
                 <label for="username" class="col-form-label col-sm-2 float-left text-right">用户名：</label>

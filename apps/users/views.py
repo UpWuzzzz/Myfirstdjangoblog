@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
@@ -7,11 +7,12 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.hashers import make_password
 
 from .models import UserProfile, EmailVerifyRecord
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, ForgetForm
 
 from captcha.models import CaptchaStore
 from captcha.helpers import captcha_image_url
 from utils.email_send import send_register_email
+
 
 class UserBackend(ModelBackend):
     def authenticate(self, username=None, password=None, **kwargs):
@@ -52,7 +53,7 @@ class LoginView(View):
         else:
             hashkey = CaptchaStore.generate_key()
             image_url = captcha_image_url(hashkey)
-            return render(request, "Login.html", {'msg': '验证码错误请重输入。', 'hashkey': hashkey, 'image_url': image_url})
+            return render(request, "Login.html", {'login_form': login_form, 'hashkey': hashkey, 'image_url': image_url})
 
 
 class ActiveUserView(View):
@@ -64,7 +65,9 @@ class ActiveUserView(View):
                 user = UserProfile.objects.get(email=email)
                 user.is_active = True
                 user.save()
-        return render(request, 'Login.html')
+            return redirect('/login')
+        else:
+            HttpResponse('验证码已过期.')
 
 
 class RegisterView(View):
@@ -78,12 +81,16 @@ class RegisterView(View):
         register_form = RegisterForm(request.POST)
         if register_form.is_valid():
             username = request.POST.get('username', '')
-            # if UserProfile.objects.get('username'):
-            #     return render(request, "register.html", {'msg': '用户已经存在'})
+            if UserProfile.objects.get(username=username):
+                hashkey = CaptchaStore.generate_key()
+                image_url = captcha_image_url(hashkey)
+                return render(request, "register.html", {'msg': '用户已经存在', 'hashkey': hashkey, 'image_url': image_url})
             password = request.POST.get('password', '')
             email = request.POST.get('email', '')
-            # if UserProfile.objects.get('email'):
-            #     return render(request, "register.html", {'msg': '邮箱已经存在'})
+            if UserProfile.objects.get(email=email):
+                hashkey = CaptchaStore.generate_key()
+                image_url = captcha_image_url(hashkey)
+                return render(request, "register.html", {'msg': '邮箱已经存在', 'hashkey': hashkey, 'image_url': image_url})
             sex = 'male' if request.POST.get('sex', '') == '1' else 'female'
             user_profile = UserProfile()
             user_profile.username = username
@@ -95,11 +102,26 @@ class RegisterView(View):
 
             send_register_email(email, 'register')
 
-            return HttpResponseRedirect('login')
+            return redirect('/login')
         else:
-            return render(request, "register.html", {'msg': '格式输入错误'})
+            hashkey = CaptchaStore.generate_key()
+            image_url = captcha_image_url(hashkey)
+            return render(request, "register.html", {'register_form': register_form, 'hashkey': hashkey, 'image_url': image_url})
 
 
+class ForgetpsdView(View):
+    def get(self, request):
+        forget_form = ForgetForm()
+        render(request, 'forgetpsd.html', {'forget_form': 'forget_form'})
+
+    def post(self, request):
+        forget_form = ForgetForm()
+        if forget_form.is_valid():
+            email = forget_form.Post.get('email', '')
+            send_register_email(email, 'forget')
+            render(request, '')
+        else:
+            render(request, 'forgetpsd.html', {'forget_form': 'forget_form'})
 # Create your views here.
 def user_login(request):
     if request.method == 'POST':

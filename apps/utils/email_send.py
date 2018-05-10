@@ -64,7 +64,7 @@ def send_register_email(email, send_type="register"):
         email_title = "慕学在线网注册密码重置链接"
         email_body = "请点击下面的链接重置密码: http://127.0.0.1:8000/reset/{0}".format(code)
 
-        send_status = tatus = send_msg(email_title, email_body, email)
+        send_status = send_msg(email_title, email_body, email)
         if send_status:
            pass
 
@@ -72,6 +72,6 @@ def send_register_email(email, send_type="register"):
         email_title = "慕学在线邮箱修改验证码"
         email_body = "你的邮箱验证码为: {0}".format(code)
 
-        send_status = tatus = send_msg(email_title, email_body, email)
+        send_status = send_msg(email_title, email_body, email)
         if send_status:
            pass
