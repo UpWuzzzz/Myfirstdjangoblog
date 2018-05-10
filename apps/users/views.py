@@ -6,7 +6,7 @@ from django.views.generic.base import View
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.hashers import make_password
 
-from .models import UserProfile
+from .models import UserProfile, EmailVerifyRecord
 from .forms import LoginForm, RegisterForm
 
 from captcha.models import CaptchaStore
@@ -37,12 +37,34 @@ class LoginView(View):
             password = request.POST.get('password', '')
             user = authenticate(username=username, password=password)
             if user is not None:
-                login(request, user)
-                return HttpResponse("登陆成功")
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponse("登陆成功")
+                else:
+                    hashkey = CaptchaStore.generate_key()
+                    image_url = captcha_image_url(hashkey)
+                    return render(request, "Login.html",
+                                  {'msg': '账号未激活', 'hashkey': hashkey, 'image_url': image_url})
             else:
-                return render(request, "Login.html", {'msg': '账号或者密码错误'})
+                hashkey = CaptchaStore.generate_key()
+                image_url = captcha_image_url(hashkey)
+                return render(request, "Login.html", {'msg': '账号或者密码错误', 'hashkey': hashkey, 'image_url': image_url})
         else:
-            return render(request, "Login.html", {'msg': '验证码错误请重输入。'})
+            hashkey = CaptchaStore.generate_key()
+            image_url = captcha_image_url(hashkey)
+            return render(request, "Login.html", {'msg': '验证码错误请重输入。', 'hashkey': hashkey, 'image_url': image_url})
+
+
+class ActiveUserView(View):
+    def get(self, request, active_code):
+        all_recodes = EmailVerifyRecord.objects.filter(code=active_code)
+        if all_recodes:
+            for recode in all_recodes:
+                email = recode.email
+                user = UserProfile.objects.get(email=email)
+                user.is_active = True
+                user.save()
+        return render(request, 'Login.html')
 
 
 class RegisterView(View):
@@ -56,25 +78,26 @@ class RegisterView(View):
         register_form = RegisterForm(request.POST)
         if register_form.is_valid():
             username = request.POST.get('username', '')
-            if UserProfile.objects.get('username'):
-                return render(request, "register.html", {'msg', '用户已经存在',})
+            # if UserProfile.objects.get('username'):
+            #     return render(request, "register.html", {'msg': '用户已经存在'})
             password = request.POST.get('password', '')
             email = request.POST.get('email', '')
-            if UserProfile.objects.get('email'):
-                return render(request, "register.html", {'msg', '邮箱已经存在',})
+            # if UserProfile.objects.get('email'):
+            #     return render(request, "register.html", {'msg': '邮箱已经存在'})
             sex = 'male' if request.POST.get('sex', '') == '1' else 'female'
             user_profile = UserProfile()
             user_profile.username = username
             user_profile.password = make_password(password)
             user_profile.email = email
+            user_profile.is_active = False
             user_profile.gender = sex
             user_profile.save()
 
-            # send_register_email(email=email)
+            send_register_email(email, 'register')
 
             return HttpResponseRedirect('login')
         else:
-            return render(request, "register.html", {'msg', '格式输入错误'})
+            return render(request, "register.html", {'msg': '格式输入错误'})
 
 
 # Create your views here.
@@ -84,8 +107,11 @@ def user_login(request):
         password = request.POST.get('password', '')
         user = authenticate(username=username, password=password)
         if user is not None:
-            login(request, user)
-            return HttpResponse("登陆成功")
+            if user.is_active:
+                login(request, user)
+                return HttpResponse("登陆成功")
+            else:
+                return render(request, "login.html", {'msg': '账号未激活'})
         else:
             return render(request, "login.html", {'msg': '账号或者密码错误'})
 
