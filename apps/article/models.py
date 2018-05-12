@@ -29,7 +29,10 @@ class Post(models.Model):
     modified_time = models.DateTimeField(default=datetime.now, verbose_name='文章修改时间')
     excerpt = models.CharField(max_length=200, blank=True, verbose_name='文章摘要')
     tags = models.ManyToManyField(Tag, blank=True, verbose_name='文章标签')
-    author = models.ForeignKey(UserProfile, verbose_name='作者',on_delete=models.CASCADE)
+    author = models.ForeignKey(UserProfile, verbose_name='作者', on_delete=models.CASCADE)
+    fav_num = models.IntegerField(default=0, verbose_name='收藏数')
+    praise_num = models.IntegerField(default=0, verbose_name='点赞数')
+
 
     class Meta:
         verbose_name = '文章'

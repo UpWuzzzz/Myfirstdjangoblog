@@ -11,9 +11,9 @@ class TagsAdmin(object):
 
 
 class PostAdmin(object):
-    list_display = ['title', 'body', 'author', 'tags', 'create_time', 'modified_time']
-    search_fields = ['title', 'body', 'author', 'tags']
-    list_filter = ['title', 'body', 'author', 'tags', 'create_time', 'modified_time']
+    list_display = ['title', 'body', 'author', 'tags', 'fav_num', 'praise_num', 'create_time', 'modified_time']
+    search_fields = ['title', 'body', 'author', 'tags', 'fav_num', 'praise_num']
+    list_filter = ['title', 'body', 'author', 'tags', 'fav_num', 'praise_num', 'create_time', 'modified_time']
 
 
 xadmin.site.register(Post, PostAdmin)
