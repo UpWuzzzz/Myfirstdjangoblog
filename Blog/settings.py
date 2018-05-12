@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     # 'operation',
+    'article',
     'xadmin',
     'crispy_forms',
     'captcha',

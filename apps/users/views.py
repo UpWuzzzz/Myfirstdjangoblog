@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.backends import ModelBackend
@@ -122,6 +124,8 @@ class ForgetpsdView(View):
             render(request, '')
         else:
             render(request, 'forgetpsd.html', {'forget_form': 'forget_form'})
+
+
 # Create your views here.
 def user_login(request):
     if request.method == 'POST':
@@ -139,3 +143,15 @@ def user_login(request):
 
     elif request.method == 'GET':
         return render(request, "login.html", {})
+
+
+def re_captcha(request):
+    if request.method == 'GET':
+        new_key = CaptchaStore.generate_key()
+        to_json_response = {
+            'key': new_key,
+            'image_url': captcha_image_url(new_key),
+        }
+        return HttpResponse(json.dumps(to_json_response), content_type='application/json')
+    else:
+        pass

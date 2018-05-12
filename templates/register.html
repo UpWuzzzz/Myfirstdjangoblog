@@ -61,8 +61,9 @@
                     <!--这里是大屏的验证码-->
                     <input type="text" class="col-md-4 col-sm-12 form-control" placeholder="请输入验证码" id="verify" name="captcha_1"/>
                     <div class="position-absolute col-md-3 d-none d-sm-none d-md-block" style="height: 65px;top:0px;right:28%">
-                        <img src="{{ image_url }}" alt="captcha" class="captcha"/>
+                        <img src="{{ image_url }}" alt="captcha" class="captcha float-left" style="margin-left: 25px;" />
                         <input id="id_reg_captcha_0" name="captcha_0" type="hidden" value="{{ hashkey }}">
+                        <a id="re_captcha" href="#" style="font-size:12px;display: block;overflow: hidden;color:#fff;padding-top: 22px;margin-left: 9px;float:left">换一张</a>
                     </div>
                   </div>
             </div>
@@ -77,8 +78,14 @@
           2018-404-版权所有
     </div>
 </div>
-</body>
-<script>
-
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script type="text/javascript">
+   $('#re_captcha').click(function(){
+         $.getJSON("/recaptcha/",
+                  function(result){
+             $('.captcha').attr('src', result['image_url']);
+             $('#id_captcha_0').val(result['key'])
+          });});
 </script>
+</body>
 </html>
