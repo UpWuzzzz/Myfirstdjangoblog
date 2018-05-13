@@ -48,32 +48,28 @@
         <!--主页面-->
         <li class="col-md-10 col-sm-12 text-dark my-4">
             <div class="modal-open" style="width: 100%">
-                <a href="main.html?name=article" target="main-frame"><h6 style="padding-left: 2px"><i class="fa fa-spin fa-cog"></i>文章列表</h6></a>
-                <!--<div style="display: none;height: 250px;" class="col-md-10 bg-danger"></div>-->
+                <a href="{% url 'main' 0 %}" target="main-frame"><h6 style="padding-left: 2px"><i class="fa fa-spin fa-cog"></i>文章列表</h6></a>
             </div>
         </li>
         <!--编辑页面-->
         <li class="col-md-10 col-sm-12 text-dark my-4">
             <div class="" style="width: 100%">
                 <!--在这里换a链接的href-->
-                <a href="edit.html?name=article" target="main-frame"><h6 style="padding-left: 2px"><i class="fa fa-spin fa-cog"></i>编辑文章</h6></a>
-                <!--<div style="display: none;height: 250px;" class="col-md-10 bg-danger"></div>-->
+                <a href="{% url 'edit' %}" target="main-frame"><h6 style="padding-left: 2px"><i class="fa fa-spin fa-cog"></i>编辑文章</h6></a>
             </div>
         </li>
         <!--个人信息-->
         <li class="col-md-10 col-sm-12 text-dark my-4">
             <div class="" style="width: 100%">
                 <!--在这里换a链接的href-->
-                <a href="info.html?name=article" target="main-frame"><h6 style="padding-left: 2px"><i class="fa fa-spin fa-cog"></i>信息编辑</h6></a>
-                <!--<div style="display: none;height: 250px;" class="col-md-10 bg-danger"></div>-->
+                <a href="{% url 'info' %}" target="main-frame"><h6 style="padding-left: 2px"><i class="fa fa-spin fa-cog"></i>信息编辑</h6></a>
             </div>
         </li>
 
         <li class="col-md-10 col-sm-12 text-dark my-4">
             <div class="" style="width: 100%">
                 <!--在这里换a链接的href-->
-                <a href="main.html?name=article" target="main-frame"><h6 style="padding-left: 2px"><i class="fa fa-spin fa-cog"></i>我的文章</h6></a>
-                <!--<div style="display: none;height: 250px;" class="col-md-10 bg-danger"></div>-->
+                <a href="{% url 'main' 1 %}" target="main-frame"><h6 style="padding-left: 2px"><i class="fa fa-spin fa-cog"></i>我的文章</h6></a>
             </div>
         </li>
 
@@ -110,15 +106,6 @@
         })
     })
 </script>
-<!--//            alert($(window).height()); //浏览器当前窗口可视区域高度
-//            alert($(document).height()); //浏览器当前窗口文档的高度
-//            alert($(document.body).height());//浏览器当前窗口文档body的高度
-//            alert($(document.body).outerHeight(true));//浏览器当前窗口文档body的总高度 包括border padding margin
-//
-//            alert($(window).width()); //浏览器当前窗口可视区域宽度
-//            alert($(document).width());//浏览器当前窗口文档对象宽度
-//            alert($(document.body).width());//浏览器当前窗口文档body的宽度
-//            alert($(document.body).outerWidth(true));//浏览器当前窗口文档body的总宽度 包括border padding margin-->
 </html>
 
 

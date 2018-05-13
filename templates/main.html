@@ -3,7 +3,7 @@
 {% load staticfiles %}
 <head lang="en">
     <meta charset="UTF-8">
-    <link rel="icon" href="icon.png"/>
+    <link rel="icon" href="{% static 'images/icon.png' %}"/>
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}"/>
     <style>
@@ -83,12 +83,11 @@
                         </div>
                         <!--这是头像-->
                         <div class="image modal-open col-md-2 col-sm-2 float-left ">
-                            <img src="/media/{{ article.Img }}" alt="这是头像" style="width: 60px;height:60px; border: 1px solid #d39e00" class="ml-md-5 border"/>
+                            <img src="/media/{{ article.author.image }}" alt="这是头像" style="width: 60px;height:60px; border: 1px solid #d39e00" class="ml-md-5 border"/>
                         </div>
                         <!--这是摘要-->
                         <div class="col-md-10 col-sm-10 float-left modal-open">
-                            <p class="modal-open word-s-3" style="line-height: 1.2rem;height: 60px;word-wrap: break-word;">{{ article.excerpt }}
-                            </p>
+                            <p class="modal-open word-s-3" style="line-height: 1.2rem;height: 60px;word-wrap: break-word;">{{ article.excerpt }}</p>
                         </div>
 
                     </div>
