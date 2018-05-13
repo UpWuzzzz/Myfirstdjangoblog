@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>主页面</title>
+    <link rel="icon" href="{% static 'images/icon.png' %}"/>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+    <style>
+        ::-webkit-scrollbar{
+            display: none;
+        }
+    </style>
+</head>
+
+<frameset rows="65,*" framespacing="0" border="0">
+    <frame src="header"  frameborder="no" scrolling="no" id="frame-header">
+    <frameset cols="252,62%,*" framespacing="0" border="0" id="frame-body">
+        <frame src="aside" id="menu-frame" name="menu-frame" frameborder="no" scrolling="no">
+        <frame src="main" id="main-frame" name="main-frame" align="center" width="100%" height="100%" frameborder="no" scrolling="yes">
+        <frame src="rasid" align="center" width="100%" height="100%" frameborder="no" scrolling="no" style="margin-top: 35px">
+    </frameset>
+</frameset>
+
+<!--<frameset rows="51,*" framespacing="0" border="0">-->
+    <!--<frame src="header.html" id="header-frame" name="header-frame" frameborder="no" scrolling="no">-->
+    <!--<frameset cols="180, 10, *" framespacing="0" border="0" id="frame-body">-->
+        <!--<frame src="aside.html" id="menu-frame" name="menu-frame" frameborder="no" scrolling="yes">-->
+    <!--</frameset>-->
+<!--</frameset>-->
+
+
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="icon" href="icon.png"/>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}"/>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        body{
+            color:#58666e;
+        }
+        li{
+            list-style: none;
+            transition: all 0.2s;
+            padding-bottom: 4px;
+        }
+        ::-webkit-scrollbar{
+            /*display: none;*/
+        }
+        i{
+            font-size: 12px;
+            font-style: normal;
+        }
+        h5 a{
+            color: #58666e;
+        }
+        h5 a:hover{
+            /*font-size: 21px;*/
+        }
+        .give a{
+            background-color: #fff;
+            color: #58666e;
+        }
+
+        .give a:hover{
+            font-size: 18px;
+            /*color: #34ce57;*/
+            text-decoration:none;
+            /*background-color: #edf1f2;*/
+        }
+        .word-s-3{
+            overflow:hidden;
+            text-overflow:ellipsis;
+            display:-webkit-box;
+            -webkit-box-orient:vertical;
+            -webkit-line-clamp:3;
+        }
+    </style>
+    <title>文章列表</title>
+</head>
+<body>
+<div class="nav">
+    <div class="col-md-12 modal-open" style="">
+        <!--这是标题盒子-->
+        <div class="container col-md-10 col-ms-10 my-2 text-left" style="height: 59px; border-bottom: 3px solid rgb(0, 105, 217);">
+             <h3 class="float-left" style="line-height:55px;font-size: 24px;">文章列表</h3>
+            <!--这是搜索框-->
+            <div class="seach col-md-7 text-center float-right">
+                <form action="#" class="form-group col-md-11 mt-2">
+                    <input type="text" name="seach" placeholder="搜索" class="form-control"/>
+                </form>
+            </div>
+        </div>
+        <!--这是身体盒子-->
+        <div class="container col-md-10 col-ms-10">
+            <ul class="w-100 list-group list" style="color: #58666e;">
+                {% for article in article_list %}
+                <li class="w-100 my-4" style="border-bottom: 1px solid rgb(0, 105, 217);">
+                    <h5 class="my-2 ml-2"><a href="#">{{ article.title }}</a></h5>
+                    <div class="modal-open position-relative">
+                        <!--这是点赞-->
+                        <div class="position-absolute give d-none d-sm-none d-md-block" style="top:0;left:10px;z-index:2;">
+                            <!--这里在判断登录后，选择性存在title-->
+                            <a href="#" class="fa fa-thumbs-o-up text-center" title="登陆后点赞" style="line-height:22px;display: block;border:1px solid #ECECEC;width: 45px;height: 50px;">
+                                <i style="padding: 6px;">{{ article.praise_num }}</i>
+                            </a>
+                            <a href="#" class="fa fa-bookmark-o text-center" title="登录后收藏" style="line-height: 22px;display: block;border:1px solid #ECECEC;height: 25px; width:45px;"></a>
+                        </div>
+                        <!--这是头像-->
+                        <div class="image modal-open col-md-2 col-sm-2 float-left ">
+                            <img src="/media/{{ article.Img }}" alt="这是头像" style="width: 60px;height:60px; border: 1px solid #d39e00" class="ml-md-5 border"/>
+                        </div>
+                        <!--这是摘要-->
+                        <div class="col-md-10 col-sm-10 float-left modal-open">
+                            <p class="modal-open word-s-3" style="line-height: 1.2rem;height: 60px;word-wrap: break-word;">{{ article.excerpt }}
+                            </p>
+                        </div>
+
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="blockquote-footer text-center">
+    2018-404-版权所有
+</div>
+</body>
+<script src="{% static 'js/jquery-3.3.1.js' %}"></script>
+<script>
+    $(document).ready(function () {
+       $(".list li").each(function (i) {
+           console.log($(this))
+           $(this).mouseenter(function () {
+               console.log($(this));
+               console.log(i);
+               $(this).css({
+                   "transform": "translateY(-2px)",
+                   "transtion":"all 1s",
+                   "cursor":"default",
+                   "box-shadow":"1px 1px 0 #58666e"
+               });
+           })
+
+           $(this).mouseleave(function () {
+               $(this).css({
+                   "backgroundColor":"transparent",
+                   "transform": "translateY(0)",
+                   "box-shadow":"0 0 0 transparent"
+               });
+           })
+       })
+    });
+</script>
+</html>

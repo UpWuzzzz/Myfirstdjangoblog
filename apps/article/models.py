@@ -25,6 +25,7 @@ class Post(models.Model):
     """
     title = models.CharField(max_length=100, verbose_name='文章标题')
     body = models.TextField(verbose_name='文章内容')
+    Img = models.ImageField(upload_to='font/%Y/%m', default='font/default.png', verbose_name='文章图片')
     create_time = models.DateTimeField(default=datetime.now, verbose_name='文章创建时间')
     modified_time = models.DateTimeField(default=datetime.now, verbose_name='文章修改时间')
     excerpt = models.CharField(max_length=200, blank=True, verbose_name='文章摘要')

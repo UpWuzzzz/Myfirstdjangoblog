@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}"/>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        div a {
+            /*text-underline: none;*/
+            text-decoration: none !important;
+            /*color: rgba(40, 255, 130,0.8);*/
+            overflow: hidden;
+        }
+        ul {
+            display: block;
+
+        }
+        li {
+            list-style: none;
+            font-size: 16px;
+            cursor: pointer;
+            /*border-top: 1px dashed rgb(200,0,0);*/
+        }
+        .aside a{
+            color: rgba(0,0,0,.65);
+        }
+        .heightLight {
+            color: rgba(0,0,0,1);
+        }
+        .hover {
+            color: rgb(40, 255, 130);
+        }
+
+    </style>
+    <title>左边栏页面</title>
+</head>
+<body>
+<div class="aside text-center float-left" style="border-right:1px solid rgba(0,0,0,.5);overflow: hidden">
+    <!--这是导航栏-->
+
+
+    <ul class="list mt-5 text-center">
+        <!--主页面-->
+        <li class="col-md-10 col-sm-12 text-dark my-4">
+            <div class="modal-open" style="width: 100%">
+                <a href="main.html?name=article" target="main-frame"><h6 style="padding-left: 2px"><i class="fa fa-spin fa-cog"></i>文章列表</h6></a>
+                <!--<div style="display: none;height: 250px;" class="col-md-10 bg-danger"></div>-->
+            </div>
+        </li>
+        <!--编辑页面-->
+        <li class="col-md-10 col-sm-12 text-dark my-4">
+            <div class="" style="width: 100%">
+                <!--在这里换a链接的href-->
+                <a href="edit.html?name=article" target="main-frame"><h6 style="padding-left: 2px"><i class="fa fa-spin fa-cog"></i>编辑文章</h6></a>
+                <!--<div style="display: none;height: 250px;" class="col-md-10 bg-danger"></div>-->
+            </div>
+        </li>
+        <!--个人信息-->
+        <li class="col-md-10 col-sm-12 text-dark my-4">
+            <div class="" style="width: 100%">
+                <!--在这里换a链接的href-->
+                <a href="info.html?name=article" target="main-frame"><h6 style="padding-left: 2px"><i class="fa fa-spin fa-cog"></i>信息编辑</h6></a>
+                <!--<div style="display: none;height: 250px;" class="col-md-10 bg-danger"></div>-->
+            </div>
+        </li>
+
+        <li class="col-md-10 col-sm-12 text-dark my-4">
+            <div class="" style="width: 100%">
+                <!--在这里换a链接的href-->
+                <a href="main.html?name=article" target="main-frame"><h6 style="padding-left: 2px"><i class="fa fa-spin fa-cog"></i>我的文章</h6></a>
+                <!--<div style="display: none;height: 250px;" class="col-md-10 bg-danger"></div>-->
+            </div>
+        </li>
+
+    </ul>
+</div>
+</body>
+<script src="{% static 'js/jquery-3.3.1.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        //侧边栏定义
+        $('.aside').css({
+            height: $(window).height(),
+            width: 252
+        })
+        //列表定义
+        $('li').each(function (i) {
+            $(this).addClass("col-md-10 col-sm-12 text-dark my-4");
+            console.log($(this).children(0).children(0));
+            $(this).children(0).children(0).children(0).hover(function () {
+                $(this).addClass("heightLight")
+            }, function () {
+                $(this).removeClass("heightLight")
+            });
+
+            //h6定义
+                var that = $(this);
+                $(this).children(0).children(0).click(function () {
+
+                     $(this).css("color","#34ce57");
+                     $(this).siblings("div").slideToggle(800);
+//                    that.siblings().children(0).children(0).siblings("div").slideUp(1200)
+                     that.siblings().children(0).children().css("color","#333");
+                })
+        })
+    })
+</script>
+<!--//            alert($(window).height()); //浏览器当前窗口可视区域高度
+//            alert($(document).height()); //浏览器当前窗口文档的高度
+//            alert($(document.body).height());//浏览器当前窗口文档body的高度
+//            alert($(document.body).outerHeight(true));//浏览器当前窗口文档body的总高度 包括border padding margin
+//
+//            alert($(window).width()); //浏览器当前窗口可视区域宽度
+//            alert($(document).width());//浏览器当前窗口文档对象宽度
+//            alert($(document.body).width());//浏览器当前窗口文档body的宽度
+//            alert($(document.body).outerWidth(true));//浏览器当前窗口文档body的总宽度 包括border padding margin-->
+</html>
+
+
+
+
+
+

@@ -151,3 +151,6 @@ EMAIL_FROM = EMAIL_HOST_USER
 # 过期时间
 CAPTCHA_TIMEOUT = 1
 CAPTCHA_IMAGE_SIZE = (80, 38)
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

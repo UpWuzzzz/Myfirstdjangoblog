@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+    <link rel="icon" href="{% static 'images/icon.png' %}"/>
+    <script src="{% static 'js/jquery-3.3.1.js' %}"></script>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        @media screen and (min-width: 1200px) {
+           .info p{
+               margin-left: 7%;
+           }
+        }
+        @media screen and (min-width: 992px) and (max-width: 1200px){
+            .info p{
+                margin-left: 11%;
+            }
+        }
+        @media screen and (min-width: 768px) and (max-width: 992px) {
+            .info p {
+                margin-left: 11%;
+            }
+        }
+        @media screen and (max-width: 768px){
+            .info p{
+                margin-left: 0%;
+            }
+        }
+        ::-webkit-scrollbar{
+            display: none;
+        }
+    </style>
+    <title></title>
+</head>
+<body>
+<div class="nav">
+    <!--控制-->
+    <div class="col-md-12 modal-open" style="border-right: 1px solid #004085">
+        <!--这是标题盒子-->
+        <div class="container col-md-10 col-ms-10 my-2 text-left" style="height: 59px; border-bottom: 3px solid #0069d9;">
+            <h3 class="float-left" style="line-height:55px;font-size: 24px;">文章编辑</h3>
+        </div>
+
+        <!--下面是编辑盒子-->
+
+        <div class="container col-md-10">
+            <form action="#" method="post" class="form-group mt-3">
+                <!--这里是文章标题-->
+                <div class="alert text-center position-relative modal-open" style="padding-bottom: 0px;">
+                    <label for="header" class="text-left col-form-label float-left text-muted mr-2">文章标题:</label>
+                    <input type="text" placeholder="请输入文章标题" name="header" id="header" class="col-md-10 form-control float-left"/>
+                    <div class="text-danger clearfix modal-open w-100 text-left info">
+                        <p class="text-sm-left ">输入有误，不能出现非法字符</p>
+                    </div>
+                </div>
+
+                <!--这里是文章作者-->
+                <div class="alert text-center position-relative modal-open">
+                    <label for="activity" class="text-left col-form-label float-left text-muted mr-2">文章作者:</label>
+                    <input type="text" placeholder="请输入文章标题" name="activity" id="activity" class="col-md-10 form-control float-left"/>
+                    <div class="text-danger clearfix modal-open w-100 text-left info">
+                        <p class="text-sm-left ">输入有误，不能出现非法字符</p>
+                    </div>
+                </div>
+
+                <!--这里是编辑文章-->
+                <div class="alert text-center position-relative modal-open">
+                    <label for="edits" class="text-left col-form-label float-left text-muted mr-2">文章编辑:</label>
+                    <textarea placeholder="请输入文章内容" name="activity" id="edits" class="col-md-10 form-control float-left" style="resize: none;height: 276px;"></textarea>
+                    <div class="text-danger clearfix modal-open w-100 text-left info">
+                        <!--<p class="text-sm-left ">输入有误，不能出现非法字符</p>-->
+                    </div>
+                </div>
+
+                <div class="alert text-center position-relative modal-open col-md-10 text-center mx-auto">
+                    <input type="button" class="col-md-10 form-control btn-outline-info mx-auto" style="cursor: pointer" value="提交"/>
+                </div>
+
+
+
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
