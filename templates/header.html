@@ -82,11 +82,12 @@
                         </li>
                     </ul>
                 </div>
-
+                {% if login_user %}
                 <div class="item d-md-none d-lg-block text-center">
-                    <span class="text-white my-1"><i class="fa fa-user-circle-o mr-1"></i>你好,小明</span>
+                    <span class="text-white my-1"><i class="fa fa-user-circle-o mr-1"></i>{{ login_user }}</span>
                     <a href="#" style="display: block;line-height: 22px;">退出</a>
                 </div>
+                {% endif %}
 
 
             </div>

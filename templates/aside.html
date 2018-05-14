@@ -48,28 +48,28 @@
         <!--主页面-->
         <li class="col-md-10 col-sm-12 text-dark my-4">
             <div class="modal-open" style="width: 100%">
-                <a href="{% url 'main' 0 %}" target="main-frame"><h6 style="padding-left: 2px"><i class="fa fa-spin fa-cog"></i>文章列表</h6></a>
+                <a href="{% url 'main' user_id='fontpage' %}" target="main-frame"><h6 style="padding-left: 2px"><i class="fa fa-spin fa-cog"></i>文章列表</h6></a>
             </div>
         </li>
         <!--编辑页面-->
         <li class="col-md-10 col-sm-12 text-dark my-4">
             <div class="" style="width: 100%">
                 <!--在这里换a链接的href-->
-                <a href="{% url 'edit' %}" target="main-frame"><h6 style="padding-left: 2px"><i class="fa fa-spin fa-cog"></i>编辑文章</h6></a>
+                <a href="{% url 'edit' login_user_id %}" target="main-frame"><h6 style="padding-left: 2px"><i class="fa fa-spin fa-cog"></i>编辑文章</h6></a>
             </div>
         </li>
         <!--个人信息-->
         <li class="col-md-10 col-sm-12 text-dark my-4">
             <div class="" style="width: 100%">
                 <!--在这里换a链接的href-->
-                <a href="{% url 'info' %}" target="main-frame"><h6 style="padding-left: 2px"><i class="fa fa-spin fa-cog"></i>信息编辑</h6></a>
+                <a href="{% url 'info' login_user_id %}" target="main-frame"><h6 style="padding-left: 2px"><i class="fa fa-spin fa-cog"></i>信息编辑</h6></a>
             </div>
         </li>
 
         <li class="col-md-10 col-sm-12 text-dark my-4">
             <div class="" style="width: 100%">
                 <!--在这里换a链接的href-->
-                <a href="{% url 'main' 1 %}" target="main-frame"><h6 style="padding-left: 2px"><i class="fa fa-spin fa-cog"></i>我的文章</h6></a>
+                <a href="{% url 'main' login_user_id %}" target="main-frame"><h6 style="padding-left: 2px"><i class="fa fa-spin fa-cog"></i>我的文章</h6></a>
             </div>
         </li>
 

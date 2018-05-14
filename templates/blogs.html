@@ -14,11 +14,11 @@
 </head>
 
 <frameset rows="65,*" framespacing="0" border="0">
-    <frame src="header"  frameborder="no" scrolling="no" id="frame-header">
+    <frame src="{% url 'header' login_user %}"  frameborder="no" scrolling="no" id="frame-header">
     <frameset cols="252,62%,*" framespacing="0" border="0" id="frame-body">
-        <frame src="aside" id="menu-frame" name="menu-frame" frameborder="no" scrolling="no">
-        <frame src="{% url 'main' 0 %}" id="main-frame" name="main-frame" align="center" width="100%" height="100%" frameborder="no" scrolling="yes">
-        <frame src="rasid" align="center" width="100%" height="100%" frameborder="no" scrolling="no" style="margin-top: 35px">
+        <frame src="{% url 'aside' login_user_id %}" id="menu-frame" name="menu-frame" frameborder="no" scrolling="no">
+        <frame src="{% url 'main' user_id='fontpage' %}" id="main-frame" name="main-frame" align="center" width="100%" height="100%" frameborder="no" scrolling="yes">
+        <frame src="{% url 'rasid' %}" align="center" width="100%" height="100%" frameborder="no" scrolling="no" style="margin-top: 35px">
     </frameset>
 </frameset>
 
