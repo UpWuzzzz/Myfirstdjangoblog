@@ -7,9 +7,10 @@ from django.db.models import Q
 from django.views.generic.base import View
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.hashers import make_password
+from django.contrib.sessions.models import Session
 
 from .models import UserProfile, EmailVerifyRecord
-from .forms import LoginForm, RegisterForm, ForgetForm
+from .forms import LoginForm, RegisterForm, ForgetForm, ChangepsdForm
 
 from captcha.models import CaptchaStore
 from captcha.helpers import captcha_image_url
@@ -124,6 +125,28 @@ class ForgetpsdView(View):
             render(request, '')
         else:
             render(request, 'forgetpsd.html', {'forget_form': 'forget_form'})
+
+
+# class ChangepsdView(View):
+#     def get(self, request):
+#         changepsd_form = ChangepsdForm()
+#         render(request, 'change_pass.html', {'changepsd_form': changepsd_form})
+#
+#     def post(self, request):
+#         changepsd_form = ChangepsdForm()
+#         if changepsd_form.is_valid():
+#             old_password = changepsd_form.Post.get('old_password', '')
+#             password1 = changepsd_form.Post.get('password1', '')
+#             password2 = changepsd_form.Post.get('password2', '')
+#             if password1 != password2:
+#                 render(request, '')
+#             value = Session.objects.get(session_key=request.COOKIES["sessionid"])
+#             login_user_id = value.get_decoded()['_auth_user_id']
+#             if UserProfile.objects.get(id=login_user_id).password == make_password(old_password):
+#
+#             render(request, '')
+#         else:
+#             render(request, 'change_pass.html', {'changepsd_form': changepsd_form})
 
 
 # Create your views here.

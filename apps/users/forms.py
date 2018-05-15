@@ -22,3 +22,9 @@ class RegisterForm(forms.Form):
 class ForgetForm(forms.Form):
     username = forms.CharField(required=True)
     captcha = CaptchaField(error_messages={'invalid': '验证码输入错误'})
+
+
+class ChangepsdForm(forms.Form):
+    old_password = forms.CharField(required=True)
+    password1 = forms.CharField(required=True)
+    password2 = forms.CharField(required=True)

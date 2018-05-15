@@ -1,9 +1,12 @@
+import json
 from django.shortcuts import render,render_to_response
 from django.views.generic.base import View
 
 from .models import Post
 from users.models import UserProfile
+from operation.models import UserFav, UserPraise
 from django.contrib.sessions.models import Session
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -28,11 +31,14 @@ class ArticleView(View):
         value = Session.objects.get(session_key=request.COOKIES["sessionid"])
         login_user_id = value.get_decoded()['_auth_user_id']
         login_user = UserProfile.objects.get(id=login_user_id).username
+        has_fav = UserFav.objects.filter(user_id=request.user)
+        hav_praise = UserPraise.objects.filter(user_id=request.user)
         if user_id == 'fontpage':
             article_list = Post.objects.all().order_by('-create_time')
         else:
             article_list = Post.objects.filter(author_id=user_id).order_by('-create_time')
-        return render(request, 'main.html', {'article_list': article_list, 'login_user': login_user})
+        return render(request, 'main.html', {'article_list': article_list, 'login_user': login_user,
+                                             'has_fav': has_fav, 'hav_praise': hav_praise})
 
 
 def Aside(request, user_id):
@@ -45,3 +51,88 @@ def Info(request, user_id):
 
 def Rasid(request):
     return render(request, 'rasid.html')
+
+
+class AddFavView(View):
+    """
+        用户收藏
+    """
+    def post(self, request):
+        article_id = request.POST.get('article', '')
+
+        if not request.user.is_authenticated:
+            return HttpResponse("{'status':'fail', 'msg':'用户未登录'}", content_type='application/json')
+
+        exist_recodes = UserFav.objects.filter(user=request.user, article=article_id)
+        if exist_recodes:
+            exist_recodes.delete()
+
+            article = Post.objects.get(id=article_id)
+            article.fav_num -= 1
+            nums = article.fav_num
+            article.save()
+            dic = {
+                'status': 'success',
+                'msg': '取消收藏成功',
+                'fav_num': nums,
+            }
+            return HttpResponse(json.dumps(dic),
+                                content_type='application/json')
+        else:
+            user_fav = UserFav()
+            user_fav.user = request.user
+            user_fav.article = article_id
+            user_fav.save()
+
+            article = Post.objects.get(id=article_id)
+            article.fav_num += 1
+            nums = article.fav_num
+            article.save()
+            dic ={
+                'status': 'success',
+                'msg': '收藏成功',
+                'fav_num': nums,
+            }
+            return HttpResponse(json.dumps(dic),
+                                content_type='application/json')
+
+
+class AddPraiseView(View):
+    def post(self, request):
+        article_id = request.POST.get('article', '')
+
+        if not request.user.is_authenticated:
+            return HttpResponse("{'status':'fail', 'msg':'用户未登录'}", content_type='application/json')
+
+        exist_recodes = UserPraise.objects.filter(user=request.user, article=article_id)
+        if exist_recodes:
+            exist_recodes.delete()
+
+            article = Post.objects.get(id=article_id)
+            article.praise_num -= 1
+            nums = article.praise_num
+            article.save()
+            dic = {
+                'status': 'success',
+                'msg': '取消收藏成功',
+                'praise_num': nums,
+            }
+            return HttpResponse(json.dumps(dic),
+                                content_type='application/json')
+        else:
+            user_Praise = UserPraise()
+            user_Praise.user = request.user
+            user_Praise.article = article_id
+            user_Praise.save()
+
+            article = Post.objects.get(id=article_id)
+            article.praise_num += 1
+            nums = article.praise_num
+            article.save()
+            dic = {
+                'status': 'success',
+                'msg': '收藏成功',
+                'praise_num': nums,
+            }
+            return HttpResponse(json.dumps(dic),
+                                content_type='application/json')

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>个人信息</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+    <link rel="icon" href="{% static 'images/icon.png' %}"/>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        @media screen and (min-width: 1200px) {
+            .info p{
+                margin-left: 6%;
+            }
+        }
+        @media screen and (min-width: 992px) and (max-width: 1200px){
+            .info p{
+                margin-left: 11%;
+            }
+        }
+        @media screen and (min-width: 768px) and (max-width: 992px) {
+            .info p {
+                margin-left: 11%;
+            }
+        }
+        @media screen and (max-width: 768px){
+            .info p{
+                margin-left: 0%;
+            }
+        }
+        ::-webkit-scrollbar{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="nav">
+    <div class="col-md-12 modal-open">
+        <!--这是标题盒子-->
+        <div class="container col-md-10 col-ms-10 my-2 text-left" style="height: 59px; border-bottom: 3px solid #0069d9;">
+            <h3 class="float-left" style="line-height:55px;font-size: 24px;">个人信息</h3>
+        </div>
+
+        <!--下面是个人信息-->
+            <form action="#" class="form-group  modal-open mt-3">
+                <!--这里是密码-->
+                 <div class="alter modal-open mx-auto my-2 text-center">
+                    <label for="old_password" class="float-left col-form-label mr-2 text-muted">旧密码:</label>
+                    <input type="text" name="old_password" id="old_password" placeholder="" class="form-control col-md-10 float-left"/>
+                    <div class="text-danger clearfix modal-open w-100 text-left info">
+                        <p class="text-sm-left">{{ msg }}</p>
+                    </div>
+                </div>
+
+                <div class="alter modal-open mx-auto my-2 text-center">
+                    <label for="password1" class="float-left col-form-label mr-2 text-muted">新密码:</label>
+                    <input type="text" name="password1" id="password1" placeholder="" class="form-control col-md-10 float-left"/>
+                    <div class="text-danger clearfix modal-open w-100 text-left info">
+                        <p class="text-sm-left">{{ msg }}</p>
+                    </div>
+                </div>
+
+
+                <div class="alter modal-open mx-auto my-2 text-center">
+                    <label for="password2" class="float-left col-form-label mr-2 text-muted">再次输入新密码:</label>
+                    <input type="text" name="password2" id="password2" placeholder="" class="form-control col-md-10 float-left"/>
+                    <div class="text-danger clearfix modal-open w-100 text-left info">
+                        <p class="text-sm-left">{{ msg }}</p>
+                    </div>
+                </div>
+            </form>
+
+    </div>
+</div>
+
+</body>
+</html>

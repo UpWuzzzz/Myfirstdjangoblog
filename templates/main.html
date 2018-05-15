@@ -76,10 +76,12 @@
                         <!--这是点赞-->
                         <div class="position-absolute give d-none d-sm-none d-md-block" style="top:0;left:10px;z-index:2;">
                             <!--这里在判断登录后，选择性存在title-->
-                            <a href="#" class="fa fa-thumbs-o-up text-center" title="登陆后点赞" style="line-height:22px;display: block;border:1px solid #ECECEC;width: 45px;height: 50px;">
-                                <i style="padding: 6px;">{{ article.praise_num }}</i>
+                            <a href="javascript:void(0)" onclick="aClick({{ article.id }},'/add_praise/')" id="praise{{ article.id }}" class="fa fa-thumbs-o-up text-center" title="登陆后点赞" style="{% for praise in hav_praise %}{% if article.id == praise.article %}color:#0E3BFF;
+                               {% endif %}{% endfor %}line-height:22px;display: block;width: 45px;height: 50px;">
+                                <i id="praise_num{{ article.id }}" style="padding: 6px;">{{ article.praise_num }}</i>
                             </a>
-                            <a href="#" class="fa fa-bookmark-o text-center" title="登录后收藏" style="line-height: 22px;display: block;border:1px solid #ECECEC;height: 25px; width:45px;"></a>
+                            <a href="javascript:void(0)" onclick="aClick({{ article.id }},'/add_fav/')" id="fav{{ article.id }}" class="fa fa-bookmark-o text-center" title="登录后收藏" style="{% for fav in has_fav %}{% if article.id == fav.article %}color:#0E3BFF;
+                               {% endif %}{% endfor %}line-height: 22px;display: block;height: 25px; width:45px;">收藏</a>
                         </div>
                         <!--这是头像-->
                         <div class="image modal-open col-md-2 col-sm-2 float-left ">
@@ -107,8 +109,6 @@
        $(".list li").each(function (i) {
            console.log($(this))
            $(this).mouseenter(function () {
-               console.log($(this));
-               console.log(i);
                $(this).css({
                    "transform": "translateY(-2px)",
                    "transtion":"all 1s",
@@ -126,5 +126,56 @@
            })
        })
     });
+
+    function aClick(article, add_url) {
+        $.ajax({
+            type: 'POST',
+            url: add_url,
+            data: {
+                article: article
+            },
+            beforeSend:function(xhr, settings){
+                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+            },
+            success: function(data) {
+            if(data.status == 'fail'){
+                if(data.msg == '用户未登录'){
+                    window.location.href="/login/";
+                }else{
+                    alert(data.msg)
+                }
+            }else if(data.status == 'success') {
+                if (data.praise_num >= 0) {
+                    $("#praise_num" + article).html(data.praise_num);
+                    if (data.msg == '取消收藏成功'){
+                        $("#praise" + article).css({
+                            color: "#58666e"
+                        });
+                    }
+                    else{
+                        $("#praise" + article).css({
+                            color: "#0E3BFF"
+                        });
+                    }
+                }
+                else if (data.fav_num >= 0) {
+                    if (data.msg == '取消收藏成功'){
+                        $("#fav" + article).css({
+                                color: "#58666e"
+                        });
+                    }
+                    else{
+                        $("#fav" + article).css({
+                                color: "#0E3BFF"
+                        });
+                    }
+                }
+            }
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    }
 </script>
 </html>

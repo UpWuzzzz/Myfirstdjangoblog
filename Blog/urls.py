@@ -22,22 +22,16 @@ from django.views.static import serve
 import xadmin
 
 from users.views import LoginView, RegisterView, ActiveUserView, ForgetpsdView, re_captcha
-from article.views import IndexView, Header, Edit, ArticleView, Rasid, Info, Aside
 
 urlpatterns = [
     path('xadmin/', xadmin.site.urls),
-    path('', IndexView.as_view(), name='index'),
-    path('header/<str:login_user>', Header, name='header'),
-    path('edit/<str:user_id>', Edit, name='edit'),
-    path('main/<str:user_id>', ArticleView.as_view(), name='main'),
-    path('info/<str:user_id>', Info, name='info'),
-    path('aside/<str:user_id>', Aside, name='aside'),
+    path('', include('article.urls')),
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
-    path('rasid', Rasid, name='rasid'),
     path('login', LoginView.as_view(), name='Login'),
     path('register', RegisterView.as_view(), name='register'),
     path('captcha/', include('captcha.urls')),
     path('recaptcha/', re_captcha, name='re_captcha'),
     path('active/<str:active_code>', ActiveUserView.as_view(), name='user_active'),
     path('forget', ForgetpsdView.as_view(), name='forget_password'),
+    # path('change_psd', ChangepsdView.as_view(), name='change_psd')
 ]
