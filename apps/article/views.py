@@ -7,6 +7,7 @@ from users.models import UserProfile
 from operation.models import UserFav, UserPraise
 from django.contrib.sessions.models import Session
 from django.http import HttpResponse
+from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Create your views here.
@@ -42,14 +43,44 @@ class ArticleView(View):
             hav_praise = UserPraise.objects.filter(user_id=request.user)
             if user_id == 'fontpage':
                 article_list = Post.objects.all().order_by('-create_time')
+
+                # 对课程机构进行分页
+                try:
+                    page = request.GET.get('page', 1)
+                except PageNotAnInteger:
+                    page = 1
+
+                p = Paginator(article_list, request=request)
+
+                article = p.page(page)
             else:
                 article_list = Post.objects.filter(author_id=user_id).order_by('-create_time')
+
+                # 对课程机构进行分页
+                try:
+                    page = request.GET.get('page', 1)
+                except PageNotAnInteger:
+                    page = 1
+
+                p = Paginator(article_list, request=request)
+
+                article = p.page(page)
             return render(request, 'main.html',
-                          {'article_list': article_list, 'has_fav': has_fav, 'hav_praise': hav_praise})
+                          {'article_list': article, 'has_fav': has_fav, 'hav_praise': hav_praise})
         else:
             if user_id == 'fontpage':
                 article_list = Post.objects.all().order_by('-create_time')
-                return render(request, 'main.html', {'article_list': article_list})
+
+                # 对课程机构进行分页
+                try:
+                    page = request.GET.get('page', 1)
+                except PageNotAnInteger:
+                    page = 1
+
+                p = Paginator(article_list, 5, request=request)
+
+                article = p.page(page)
+                return render(request, 'main.html', {'article_list': article})
             else:
                 return redirect('/login')
 

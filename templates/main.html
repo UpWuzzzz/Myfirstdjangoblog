@@ -69,7 +69,7 @@
         <!--这是身体盒子-->
         <div class="container col-md-10 col-ms-10">
             <ul class="w-100 list-group list" style="color: #58666e;">
-                {% for article in article_list %}
+                {% for article in article_list.object_list %}
                 <li class="w-100 my-4" style="border-bottom: 1px solid rgb(0, 105, 217);">
                     <h5 class="my-2 ml-2"><a href="#">{{ article.title }}</a></h5>
                     <div class="modal-open position-relative">
@@ -98,6 +98,27 @@
             </ul>
         </div>
     </div>
+</div>
+<div style="text-align: center">
+    <ul style="margin: 0;padding: 0;display: inline-block;">
+        {% if article_list.has_previous %}
+            <li style="display: inline"><a href="?{{ article_list.previous_page_number.querystring }}" style="color: #000000">上一页</a></li>
+        {% endif %}
+        {% for page in article_list.pages %}
+            {% if page %}
+                {% ifequal page article_list.number %}
+                    <li style="display: inline"><a href="#">{{ page }}</a></li>
+                {% else %}
+                    <li style="display: inline"><a href="?{{ page.querystring }}" style="color: #000000">{{ page }}</a></li>
+                {% endifequal %}
+            {% else %}
+                ...
+            {% endif %}
+        {% endfor %}
+        {% if article_list.has_next %}
+            <li style="display: inline"><a href="?{{ article_list.next_page_number.querystring }}" style="color: #000000">下一页</a></li>
+        {% endif %}
+</ul>
 </div>
 <div class="blockquote-footer text-center">
     2018-404-版权所有
