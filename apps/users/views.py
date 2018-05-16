@@ -43,7 +43,7 @@ class LoginView(View):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return HttpResponse("登陆成功")
+                    return redirect('/')
                 else:
                     hashkey = CaptchaStore.generate_key()
                     image_url = captcha_image_url(hashkey)

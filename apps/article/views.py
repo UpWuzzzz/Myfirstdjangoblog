@@ -1,5 +1,5 @@
 import json
-from django.shortcuts import render,render_to_response
+from django.shortcuts import render, render_to_response, redirect
 from django.views.generic.base import View
 
 from .models import Post
@@ -12,9 +12,13 @@ from django.http import HttpResponse
 # Create your views here.
 class IndexView(View):
     def get(self, request):
-        value = Session.objects.get(session_key=request.COOKIES["sessionid"])
-        login_user_id = value.get_decoded()['_auth_user_id']
-        login_user = UserProfile.objects.get(id=login_user_id).username
+        if request.user.is_authenticated:
+            value = Session.objects.get(session_key=request.COOKIES["sessionid"])
+            login_user_id = value.get_decoded()['_auth_user_id']
+            login_user = UserProfile.objects.get(id=login_user_id).username
+        else:
+            login_user_id = -1
+            login_user = '未登录'
         return render(request, 'blogs.html', {'login_user': login_user, 'login_user_id': login_user_id})
 
 
@@ -23,22 +27,31 @@ def Header(request, login_user):
 
 
 def Edit(request, user_id):
+    if user_id == '-1':
+        return redirect('/login')
     return render(request, 'edit.html', {'login_user_id': user_id})
 
 
 class ArticleView(View):
     def get(self, request, user_id):
-        value = Session.objects.get(session_key=request.COOKIES["sessionid"])
-        login_user_id = value.get_decoded()['_auth_user_id']
-        login_user = UserProfile.objects.get(id=login_user_id).username
-        has_fav = UserFav.objects.filter(user_id=request.user)
-        hav_praise = UserPraise.objects.filter(user_id=request.user)
-        if user_id == 'fontpage':
-            article_list = Post.objects.all().order_by('-create_time')
+        if request.user.is_authenticated:
+            value = Session.objects.get(session_key=request.COOKIES["sessionid"])
+            login_user_id = value.get_decoded()['_auth_user_id']
+            login_user = UserProfile.objects.get(id=login_user_id).username
+            has_fav = UserFav.objects.filter(user_id=request.user)
+            hav_praise = UserPraise.objects.filter(user_id=request.user)
+            if user_id == 'fontpage':
+                article_list = Post.objects.all().order_by('-create_time')
+            else:
+                article_list = Post.objects.filter(author_id=user_id).order_by('-create_time')
+            return render(request, 'main.html',
+                          {'article_list': article_list, 'has_fav': has_fav, 'hav_praise': hav_praise})
         else:
-            article_list = Post.objects.filter(author_id=user_id).order_by('-create_time')
-        return render(request, 'main.html', {'article_list': article_list, 'login_user': login_user,
-                                             'has_fav': has_fav, 'hav_praise': hav_praise})
+            if user_id == 'fontpage':
+                article_list = Post.objects.all().order_by('-create_time')
+                return render(request, 'main.html', {'article_list': article_list})
+            else:
+                return redirect('/login')
 
 
 def Aside(request, user_id):
@@ -46,6 +59,8 @@ def Aside(request, user_id):
 
 
 def Info(request, user_id):
+    if user_id == '-1':
+        return redirect('/login')
     return render(request, 'info.html', {'login_user_id': user_id})
 
 
@@ -61,7 +76,11 @@ class AddFavView(View):
         article_id = request.POST.get('article', '')
 
         if not request.user.is_authenticated:
-            return HttpResponse("{'status':'fail', 'msg':'用户未登录'}", content_type='application/json')
+            data = {
+                'status': 'fail',
+                'msg': '用户未登录',
+            }
+            return HttpResponse(json.dumps(data), content_type='application/json')
 
         exist_recodes = UserFav.objects.filter(user=request.user, article=article_id)
         if exist_recodes:
@@ -102,7 +121,11 @@ class AddPraiseView(View):
         article_id = request.POST.get('article', '')
 
         if not request.user.is_authenticated:
-            return HttpResponse("{'status':'fail', 'msg':'用户未登录'}", content_type='application/json')
+            data = {
+                'status': 'fail',
+                'msg': '用户未登录',
+            }
+            return HttpResponse(json.dumps(data), content_type='application/json')
 
         exist_recodes = UserPraise.objects.filter(user=request.user, article=article_id)
         if exist_recodes:
